@@ -4,7 +4,9 @@ import NavBar from './components/navbar/NavBar.vue';
 </script>
 
 <template>
-<NavBar> Hello World!!!</NavBar>
+<NavBar>
+    <router-view></router-view>
+</NavBar>
 </template>
 
 <style scoped>
