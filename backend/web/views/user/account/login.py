@@ -14,7 +14,7 @@ class LoginView(APIView):
             
             user = authenticate(username=username, password=password)
             if user is not None: #用户名密码正确
-                user_profile = UserProfile.objects.get(username=username)
+                user_profile = UserProfile.objects.get(user=user)
                 refresh = RefreshToken.for_user(user)
                 response = Response({
                     'result': 'success',
