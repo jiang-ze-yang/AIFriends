@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.contrib.auth import authenticate
-from web.models.user import UserProfile
+from web.models import UserProfile
 from rest_framework_simplejwt.tokens import RefreshToken
 
 class LoginView(APIView):

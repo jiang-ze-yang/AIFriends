@@ -13,8 +13,8 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     photo = models.ImageField(default='user/photos/default.jpg', upload_to=photo_upload_to)
     profile = models.TextField(default='这个人很懒，什么都没有留下~', max_length=500)
-    create_time = models.DateTimeField(default=now)
-    update_time = models.DateTimeField(default=now)
+    create_time = models.DateTimeField(default= now)
+    update_time = models.DateTimeField(default= now)
     
     def __str__(self):
         return f'{self.user.username} - {localtime(self.create_time).strftime("%Y-%m-%d %H:%M:%S")}'
