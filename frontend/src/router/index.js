@@ -1,7 +1,8 @@
-import HomePageIcon from '@/components/navbar/icons/HomepageIcon.vue'
+
 import CreateIndex from '@/views/create/CreateIndex.vue'
 import NotFoundIndex from '@/views/error/NotFoundIndex.vue'
 import FriendIndex from '@/views/friend/FriendIndex.vue'
+import HomepageIndex from '@/views/homepage/HomepageIndex.vue'
 import ProfileIndex from '@/views/profile/ProfileIndex.vue'
 import LoginIndex from '@/views/user/account/LoginIndex.vue'
 import RegisterIndex from '@/views/user/account/RegisterIndex.vue'
@@ -15,7 +16,7 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      component: HomePageIcon,
+      component: HomepageIndex,
       name: 'homepage-index',  
     },
     {
