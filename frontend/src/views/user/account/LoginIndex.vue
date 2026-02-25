@@ -57,7 +57,7 @@ async function handleLogin(params) {
                 <router-link :to="{ name: 'register-index'}" class="btn btn-ghost btn-sm text-gray-500">
                     注册
                 </router-link>
-v
+
             </div>
         </form>
     </div>
