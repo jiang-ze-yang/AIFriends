@@ -8,7 +8,7 @@ class GetSingleCharacterView(APIView):
     permission_classes = [IsAuthenticated]
     def get(self, request):
         try:
-            character_id = request.data['character_id']
+            character_id = request.query_params.get('character_id')
             character = Character.objects.get(id=character_id, author__user=request.user)
             return Response({
                 'result': 'success',
@@ -16,8 +16,8 @@ class GetSingleCharacterView(APIView):
                     'id': character.id,
                     'name': character.name,
                     'profile': character.profile,
-                    'photo': character.photo.url if character.photo else None,
-                    'background_image': character.background_image.url if character.background_image else None,
+                    'photo': character.photo.url,
+                    'background_image': character.background_image.url,
                 }
             })
         except:
