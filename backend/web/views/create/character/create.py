@@ -42,7 +42,7 @@ class CreateCharacterView(APIView):
                 background_image=background_image
             )
             return Response({
-                'result': 'success'
+                'result': 'success',
             })
 
         except:             
