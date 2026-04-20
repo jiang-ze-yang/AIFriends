@@ -63,7 +63,7 @@ function onFileChange(e){
 
 
 onBeforeMount(() => {
-    croppie?.destory()
+    croppie?.destroy()
 })
 
 defineExpose({
