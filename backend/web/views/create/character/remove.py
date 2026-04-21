@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
-from backend.web.views.utils.photo import remove_old_photo
+from web.views.utils.photo import remove_old_photo
 from web.models.character import Character
 
 class RemoveCharacterView(APIView):

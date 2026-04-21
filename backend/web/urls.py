@@ -1,4 +1,5 @@
 from django.urls import path, re_path
+
 from web.views.user.account.login import LoginView
 from web.views.user.account.logout import LogoutView
 from web.views.user.account.register import RegisterView
@@ -10,6 +11,7 @@ from web.views.create.character.create import CreateCharacterView
 from web.views.create.character.update import UpdateCharacterView
 from web.views.create.character.remove import RemoveCharacterView
 from web.views.create.character.get_single import GetSingleCharacterView
+from web.views.create.character.get_list import GetCharacterListView
 from web.views.index import index
 
 urlpatterns = [
@@ -25,6 +27,7 @@ urlpatterns = [
     path('api/create/character/update/', UpdateCharacterView.as_view()),
     path('api/create/character/remove/', RemoveCharacterView.as_view()),
     path('api/create/character/get_single/', GetSingleCharacterView.as_view()),
+    path('api/create/character/get_list/', GetCharacterListView.as_view()),
     
     path('', index),
     
