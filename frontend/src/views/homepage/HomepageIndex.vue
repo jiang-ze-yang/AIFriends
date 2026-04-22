@@ -1,12 +1,14 @@
 <script setup>
 import Character from '@/components/character/Character.vue';
 import api from '@/js/http/api';
-import { nextTick, onBeforeUnmount, onMounted, ref, useTemplateRef } from 'vue';
+import { nextTick, onBeforeUnmount, onMounted, ref, useTemplateRef, watch } from 'vue';
+import { useRoute } from 'vue-router';
 
 const characters = ref([])
 const isLoading = ref(false)
 const hasCharacter = ref(true)
 const sentinelRef = useTemplateRef('sentinel-ref')
+const route = useRoute()
 
 async function loadMore() {
     if(isLoading.value || !hasCharacter.value) return 
@@ -17,6 +19,7 @@ async function loadMore() {
         const res = await api.get('/api/homepage/index/', {
             params:{
                 items_count: characters.value.length,
+                search_query: route.query.q || '',
             }
         })
         const data = res.data
@@ -61,6 +64,19 @@ onMounted(async() => {
     )
 
     observer.observe(sentinelRef.value)
+})
+
+function reset(){
+    characters.value = []
+    isLoading.value = false
+    hasCharacter.value = true
+    loadMore()
+}
+
+
+watch(() => route.query.q, newQ =>{
+    reset()
+
 })
 
 onBeforeUnmount(()=>{
