@@ -1,5 +1,6 @@
 from django.urls import path, re_path
 
+from web.views.friend.message.chat.chat import MessageChatView
 from web.views.user.account.login import LoginView
 from web.views.user.account.logout import LogoutView
 from web.views.user.account.register import RegisterView
@@ -36,6 +37,7 @@ urlpatterns = [
     path('api/friend/get_or_create/', GetOrCreateFriendView.as_view()),
     path('api/friend/get_list/', GetListFriendView.as_view()),
     path('api/friend/remove/', RemoveFriendView.as_view()),
+    path('api/friend/message/chat/', MessageChatView.as_view()),
     
     path('', index),
     
