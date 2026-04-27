@@ -5,8 +5,8 @@ from rest_framework.permissions import IsAuthenticated
 
 from rest_framework.renderers import BaseRenderer
 from web.views.friend.message.chat.graph import ChatGraph
-from web.models.friend import Friend, Message
-from langchain_core.messages import HumanMessage, BaseMessageChunk
+from web.models.friend import Friend, Message, SystemPrompt
+from langchain_core.messages import HumanMessage, BaseMessageChunk, SystemMessage, AIMessage
 import json
 
 class SSERenderer(BaseRenderer):
@@ -14,7 +14,28 @@ class SSERenderer(BaseRenderer):
     format = 'txt'
     def render(self, data, accepted_media_type=None, renderer_context=None):
         return data
+    
+def add_system_prompt(state, friend):
+    msgs = state['messages']
+    system_prompts = SystemPrompt.objects.filter(title='回复').order_by('order_number')
+    prompt = ''
+    for sp in system_prompts:
+        prompt += sp.prompt
+    prompt += f'\n【角色性格】\n{friend.character.profile}\n'
+    return {'messages': [SystemMessage(prompt)] + msgs}
 
+def add_recent_message(state, friend):
+    msgs = state['messages']
+    message_raw = list(Message.objects.filter(friend=friend).order_by('-id')[:10])
+    message_raw.reverse()
+    messages = []
+    for m in message_raw:
+        messages.append(HumanMessage(m.user_message))
+        messages.append(AIMessage(m.output))
+    return {'messages': msgs[:1] + messages + msgs[-1:]}
+
+    
+    
 class MessageChatView(APIView):
     permission_classes = [IsAuthenticated]
     renderer_classes = [SSERenderer]
@@ -36,7 +57,8 @@ class MessageChatView(APIView):
         inputs = {
             'messages': [HumanMessage(message)]
         }
-        
+        inputs = add_system_prompt(inputs, friend)
+        inputs = add_recent_message(inputs, friend)
         
         
         def event_stream(): 
