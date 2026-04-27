@@ -7,7 +7,7 @@ from langgraph.graph import add_messages, StateGraph
 from langgraph.constants import START, END
 from langchain_core.tools import tool
 from langgraph.prebuilt import ToolNode
-from pprint import pprint
+
 class ChatGraph:
     @staticmethod
     def create_app():
@@ -34,7 +34,6 @@ class ChatGraph:
             messages: Annotated[Sequence[BaseMessage], add_messages]
             
         def model_call(state: AgentState) -> AgentState:
-            pprint(state)
             res = llm.invoke(state['messages'])
             return {'messages': [res]}
         
