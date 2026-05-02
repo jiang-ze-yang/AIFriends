@@ -3,7 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from django.utils import timezone
 
-from web.models.character import Character
+from web.models.character import Character, Voice
 from web.views.utils.photo import remove_old_photo
 
 class UpdateCharacterView(APIView):
@@ -13,6 +13,7 @@ class UpdateCharacterView(APIView):
             character_id = request.data['character_id']
             character = Character.objects.get(id=character_id, author__user=request.user)
             name = request.data['name'].strip()
+            voice_id = request.data['voice_id']
             profile = request.data['profile'].strip()[:100000]
             photo = request.FILES.get('photo', None)
             background_image = request.FILES.get('background_image', None)
@@ -34,8 +35,12 @@ class UpdateCharacterView(APIView):
             if background_image:
                 remove_old_photo(character.background_image)
                 character.background_image = background_image
+                
+            voice = Voice.objects.get(id=voice_id)
+            
             character.name = name
             character.profile = profile
+            character.voice = voice
             character.update_time = timezone.now()
             character.save()
             return Response({

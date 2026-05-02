@@ -1,5 +1,6 @@
 from django.urls import path, re_path
 
+from web.views.create.character.voice.get_list import GetVoiceListView
 from web.views.friend.message.asr.asr import ASRView
 from web.views.friend.message.get_history import GetHistoryView
 from web.views.friend.message.chat.chat import MessageChatView
@@ -21,6 +22,7 @@ from web.views.friend.get_or_create import GetOrCreateFriendView
 from web.views.friend.get_list import GetListFriendView
 from web.views.friend.remove import RemoveFriendView
 
+
 urlpatterns = [
     path("api/user/account/login/", LoginView.as_view()),
     path("api/user/account/logout/", LogoutView.as_view()),
@@ -35,6 +37,7 @@ urlpatterns = [
     path('api/create/character/remove/', RemoveCharacterView.as_view()),
     path('api/create/character/get_single/', GetSingleCharacterView.as_view()),
     path('api/create/character/get_list/', GetCharacterListView.as_view()),
+    path('api/create/character/voice/get_list/', GetVoiceListView.as_view()),
     path('api/homepage/index/', HomepageIndexView.as_view()),
     path('api/friend/get_or_create/', GetOrCreateFriendView.as_view()),
     path('api/friend/get_list/', GetListFriendView.as_view()),

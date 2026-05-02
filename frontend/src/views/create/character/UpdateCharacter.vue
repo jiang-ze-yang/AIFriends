@@ -8,12 +8,15 @@ import { base64ToFile } from '@/js/utils/base64_to_file';
 import api from '@/js/http/api.js';
 import { useRouter, useRoute } from 'vue-router';
 import { useUserStore } from '@/stores/user';
+import Voice from './components/Voice.vue';
 
 const user = useUserStore()
 const router = useRouter()
 const route = useRoute()
 const characterId = route.params.character_id
 const character = ref(null)
+const voices = ref([])
+const curVoiceId = ref(null)
 
 onMounted(async () => {
   try {
@@ -25,6 +28,8 @@ onMounted(async () => {
     const data = res.data
     if (data.result === 'success') {
       character.value = data.character
+      voices.value = data.voices
+      curVoiceId.value = data.character.voice_id
     }
   } catch (err) {
   }
@@ -34,6 +39,7 @@ onMounted(async () => {
 
 const photoRef = useTemplateRef('photo-ref')
 const nameRef = useTemplateRef('name-ref')
+const voiceRef = useTemplateRef('voice-ref')
 const profileRef = useTemplateRef('profile-ref')
 const backgroundImageRef = useTemplateRef('background-image-ref')
 const errorMessage = ref('')
@@ -41,6 +47,7 @@ const errorMessage = ref('')
 async function handleUpdate(){
     const photo = photoRef.value.myPhoto
     const name = nameRef.value.myName?.trim()
+    const voice = voiceRef.value.myVoice
     const profile = profileRef.value.myProfile?.trim()
     const backgroundImage = backgroundImageRef.value.myBackgroundImage
     errorMessage.value = ''
@@ -50,7 +57,12 @@ async function handleUpdate(){
     }else if(!name){
         errorMessage.value = '请输入角色名称'
         return
-    }else if(!profile){
+    }
+    else if(!voice){
+        errorMessage.value = '请选择角色音色'
+        return
+    }
+    else if(!profile){
         errorMessage.value = '请输入角色简介' 
     }else if(!backgroundImage){
         errorMessage.value = '请上传角色背景图'
@@ -58,6 +70,7 @@ async function handleUpdate(){
         const formData = new FormData()
         formData.append('character_id', characterId)
         formData.append('name', name)
+        formData.append('voice_id', voice)
         formData.append('profile', profile)
 
         if(photo !== character.value.photo){
@@ -96,6 +109,7 @@ async function handleUpdate(){
                 <h3 class="text-lg font-bold my-4">更新角色</h3>
                 <Photo ref="photo-ref" :photo="character.photo" />
                 <Name ref="name-ref" :name="character.name" />
+                <Voice ref="voice-ref" :voices="voices" :curVoiceId="curVoiceId" />
                 <Profile ref="profile-ref" :profile="character.profile" />
                 <BackgroundImage ref="background-image-ref" :backgroundImage="character.background_image" />
 
